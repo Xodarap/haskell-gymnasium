@@ -64,3 +64,22 @@ The project uses a devcontainer based on the `htorch/hasktorch-jupyter:latest` i
 - Follow standard Haskell project structure conventions
 - Use type-safe interfaces for environment definitions
 - Consider lazy evaluation implications for RL training loops
+
+## Publishing to Hackage
+
+The package is configured for Hackage publishing with:
+- Proper metadata in package.yaml
+- MIT license file
+- Comprehensive documentation
+- Version bounds for dependencies
+- Changelog following Keep a Changelog format
+
+To publish:
+1. `cabal check` - Validate package
+2. `cabal sdist` - Create source distribution
+3. `cabal upload --publish dist-newstyle/sdist/gym-hs-0.1.0.0.tar.gz` - Upload to Hackage
+
+Required for publishing:
+- Hackage account with upload permissions
+- All dependencies available on Hackage
+- Documentation builds successfully
