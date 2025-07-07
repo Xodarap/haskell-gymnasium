@@ -1,13 +1,6 @@
-# gym-hs
+# Haskell Gymnasium
 
-A Haskell library that provides bindings to OpenAI Gymnasium environments, enabling you to call any Gymnasium environment from Haskell.
-
-## Features
-
-- **Simple API**: Easy-to-use Haskell interface for Gymnasium environments
-- **Full Interoperability**: Seamless communication between Haskell and Python
-- **Type Safety**: Strongly typed actions and observations
-- **Environment Management**: Automatic resource cleanup
+A Haskell library that provides bindings to OpenAI Gymnasium environments, enabling you to call any Gymnasium environment from Haskell. Implemented by spawning a python subprocess and using stdio to communicate with it.
 
 ## Quick Start
 
@@ -86,15 +79,6 @@ main = do
 - GHC 9.2+
 - Python 3.8+
 - Gymnasium (`pip install gymnasium`)
-
-## Architecture
-
-The library uses a subprocess-based approach to communicate with Python:
-
-1. **Process Management**: Each environment spawns a Python subprocess
-2. **JSON Communication**: Commands and responses are exchanged via JSON
-3. **Resource Safety**: Automatic cleanup of Python processes
-4. **Error Handling**: Comprehensive error types for debugging
 
 ## Supported Environments
 
