@@ -23,7 +23,12 @@ author: gym-hs contributors
 maintainer: gym-hs@example.com
 copyright: 2025 gym-hs contributors
 category: AI, Machine Learning, Reinforcement Learning
-build-type: Simple
+build-type: Custom
+custom-setup:
+  dependencies:
+  - base
+  - Cabal
+  - process
 extra-source-files:
 - README.md
 - CHANGELOG.md
