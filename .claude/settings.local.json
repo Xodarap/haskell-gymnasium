@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Task",
+      "Bash",
+      "Glob",
+      "Grep",
+      "LS",
+      "Read",
+      "Edit",
+      "MultiEdit",
+      "Write",
+      "WebFetch",
+      "WebSearch",
+      "Bash(mkdir:*)",
+      "Bash(stack build)",
+      "Bash(export:*)",
+      "Bash(ghc:*)",
+      "Bash(stack build:*)",
+      "Bash(timeout:*)",
+      "Bash(python3:*)",
+      "Bash(cabal:*)",
+      "Bash(pip install:*)",
+      "Bash(stack init:*)",
+      "Bash(rm:*)"
+    ],
+    "deny": []
+  }
+}

@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TypeApplications #-}
 module Gym.Internal.Python
   ( PythonEnv(..)
   , createPythonEnv
@@ -14,12 +15,15 @@ import Data.Text (Text)
 import qualified Data.Text as T
 import System.Process
 import System.IO
+import System.Mem.Weak (Weak, mkWeak, deRefWeak)
+import Control.Exception (try, SomeException)
 
 data PythonEnv = PythonEnv
   { envHandle :: ProcessHandle
   , envStdin :: Handle
   , envStdout :: Handle
   , envName :: Text
+  , envFinalizer :: Weak (IO ())
   }
 
 createPythonEnv :: Text -> IO (Either String PythonEnv)
@@ -80,14 +84,30 @@ createPythonEnv envName = do
   hSetBuffering hIn LineBuffering
   hSetBuffering hOut LineBuffering
   
-  return $ Right $ PythonEnv ph hIn hOut envName
+  -- Create cleanup action for automatic finalization
+  let cleanup = do
+        _ <- try @SomeException $ hPutStrLn hIn "QUIT"
+        _ <- try @SomeException $ hClose hIn
+        _ <- try @SomeException $ hClose hOut
+        _ <- try @SomeException $ terminateProcess ph
+        return ()
+  
+  -- Register finalizer that will run when PythonEnv is garbage collected
+  finalizer <- mkWeak ph cleanup Nothing
+  
+  return $ Right $ PythonEnv ph hIn hOut envName finalizer
 
 destroyPythonEnv :: PythonEnv -> IO ()
 destroyPythonEnv env = do
-  hPutStrLn (envStdin env) "QUIT"
-  hClose (envStdin env)
-  hClose (envStdout env)
-  terminateProcess (envHandle env)
+  -- Deregister the finalizer since we're manually cleaning up
+  _ <- deRefWeak (envFinalizer env)
+  
+  -- Perform cleanup
+  _ <- try @SomeException $ hPutStrLn (envStdin env) "QUIT"
+  _ <- try @SomeException $ hClose (envStdin env)
+  _ <- try @SomeException $ hClose (envStdout env)
+  _ <- try @SomeException $ terminateProcess (envHandle env)
+  return ()
 
 resetEnv :: PythonEnv -> IO (Either String Value)
 resetEnv env = do
