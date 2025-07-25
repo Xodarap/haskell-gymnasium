@@ -1,9 +1,8 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Main where
+module Main (main) where
 
 import Data.Aeson (Value(Number))
 import Control.Exception (bracket)
-import Control.Monad (replicateM_)
 
 import Gym.Environment
 import Gym.Core
@@ -14,7 +13,7 @@ main = do
   result <- makeEnv "CartPole-v1"
   case result of
     Left err -> putStrLn $ "Error: " ++ show err
-    Right env -> bracket (return env) closeEnv $ \env -> do
+    Right gymEnv -> bracket (return gymEnv) closeEnv $ \env -> do
       putStrLn "Environment created successfully!"
       
       putStrLn "Resetting environment..."
@@ -30,7 +29,7 @@ main = do
           putStrLn "Done!"
 
 runSteps :: Environment -> Int -> IO ()
-runSteps env 0 = return ()
+runSteps _ 0 = return ()
 runSteps env n = do
   stepResult <- step env (Action (Number 0))
   case stepResult of

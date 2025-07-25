@@ -21,7 +21,7 @@ main = hspec $ do
       result <- makeEnv "CartPole-v1"
       case result of
         Left err -> expectationFailure $ "Failed to create environment: " ++ show err
-        Right env -> bracket (return env) closeEnv $ \env -> do
+        Right gymEnv -> bracket (return gymEnv) closeEnv $ \env -> do
           resetResult <- reset env
           case resetResult of
             Left err -> expectationFailure $ "Failed to reset: " ++ show err
@@ -31,7 +31,7 @@ main = hspec $ do
       result <- makeEnv "CartPole-v1"
       case result of
         Left err -> expectationFailure $ "Failed to create environment: " ++ show err
-        Right env -> bracket (return env) closeEnv $ \env -> do
+        Right gymEnv -> bracket (return gymEnv) closeEnv $ \env -> do
           resetResult <- reset env
           case resetResult of
             Left err -> expectationFailure $ "Failed to reset: " ++ show err

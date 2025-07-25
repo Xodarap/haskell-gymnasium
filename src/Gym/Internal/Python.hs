@@ -27,7 +27,7 @@ data PythonEnv = PythonEnv
   }
 
 createPythonEnv :: Text -> IO (Either String PythonEnv)
-createPythonEnv envName = do
+createPythonEnv envName' = do
   let pythonScript = unlines
         [ "import gymnasium as gym"
         , "import json"
@@ -44,7 +44,7 @@ createPythonEnv envName = do
         , "            return float(obj)"
         , "        return super().default(obj)"
         , ""
-        , "env = gym.make('" ++ T.unpack envName ++ "')"
+        , "env = gym.make('" ++ T.unpack envName' ++ "')"
         , ""
         , "while True:"
         , "    try:"
@@ -75,7 +75,7 @@ createPythonEnv envName = do
         , "        print(f'ERROR: {str(e)}')"
         ]
   
-  (Just hIn, Just hOut, Just hErr, ph) <- createProcess (proc "python3" ["-c", pythonScript])
+  (Just hIn, Just hOut, Just _hErr, ph) <- createProcess (proc "python3" ["-c", pythonScript])
     { std_in = CreatePipe
     , std_out = CreatePipe
     , std_err = CreatePipe
@@ -95,40 +95,40 @@ createPythonEnv envName = do
   -- Register finalizer that will run when PythonEnv is garbage collected
   finalizer <- mkWeak ph cleanup Nothing
   
-  return $ Right $ PythonEnv ph hIn hOut envName finalizer
+  return $ Right $ PythonEnv ph hIn hOut envName' finalizer
 
 destroyPythonEnv :: PythonEnv -> IO ()
-destroyPythonEnv env = do
+destroyPythonEnv pythonEnv = do
   -- Deregister the finalizer since we're manually cleaning up
-  _ <- deRefWeak (envFinalizer env)
+  _ <- deRefWeak (envFinalizer pythonEnv)
   
   -- Perform cleanup
-  _ <- try @SomeException $ hPutStrLn (envStdin env) "QUIT"
-  _ <- try @SomeException $ hClose (envStdin env)
-  _ <- try @SomeException $ hClose (envStdout env)
-  _ <- try @SomeException $ terminateProcess (envHandle env)
+  _ <- try @SomeException $ hPutStrLn (envStdin pythonEnv) "QUIT"
+  _ <- try @SomeException $ hClose (envStdin pythonEnv)
+  _ <- try @SomeException $ hClose (envStdout pythonEnv)
+  _ <- try @SomeException $ terminateProcess (envHandle pythonEnv)
   return ()
 
 resetEnv :: PythonEnv -> IO (Either String Value)
-resetEnv env = do
-  hPutStrLn (envStdin env) "RESET"
-  response <- hGetLine (envStdout env)
+resetEnv pythonEnv = do
+  hPutStrLn (envStdin pythonEnv) "RESET"
+  response <- hGetLine (envStdout pythonEnv)
   case decode (L8.pack response) of
     Just value -> return $ Right value
     Nothing -> return $ Left $ "Failed to parse reset response: " ++ response
 
 stepEnv :: PythonEnv -> Value -> IO (Either String Value)
-stepEnv env action = do
-  hPutStrLn (envStdin env) $ "STEP:" ++ L8.unpack (encode action)
-  response <- hGetLine (envStdout env)
+stepEnv pythonEnv action = do
+  hPutStrLn (envStdin pythonEnv) $ "STEP:" ++ L8.unpack (encode action)
+  response <- hGetLine (envStdout pythonEnv)
   case decode (L8.pack response) of
     Just value -> return $ Right value
     Nothing -> return $ Left $ "Failed to parse step response: " ++ response
 
 renderEnv :: PythonEnv -> IO (Either String ())
-renderEnv env = do
-  hPutStrLn (envStdin env) "RENDER"
-  response <- hGetLine (envStdout env)
+renderEnv pythonEnv = do
+  hPutStrLn (envStdin pythonEnv) "RENDER"
+  response <- hGetLine (envStdout pythonEnv)
   case response of
     "OK" -> return $ Right ()
     _ -> return $ Left $ "Render failed: " ++ response

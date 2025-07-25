@@ -8,9 +8,7 @@ module Gym.Environment
   , render
   ) where
 
-import Control.Exception (bracket)
-import Data.Aeson (Value(Object, Number, Bool), (.:))
-import Data.Aeson.Types (parseMaybe)
+import Data.Aeson (Value(Object, Number, Bool))
 import Data.Text (Text)
 import qualified Data.Aeson.KeyMap as KM
 import Data.Scientific (toRealFloat)
