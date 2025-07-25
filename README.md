@@ -56,3 +56,5 @@ main = do
       -- Clean up
       closeEnv env
 ```
+
+A full example using Gymnasium to implement a DQN solving CartPole is [here](https://github.com/Xodarap/hs-gym-example).
