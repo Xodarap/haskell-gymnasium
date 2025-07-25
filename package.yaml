@@ -40,14 +40,14 @@ source-repository:
 
 dependencies:
 - base >= 4.7 && < 5
-- process >= 1.6
-- aeson >= 2.0
-- bytestring >= 0.10
-- text >= 1.2
-- vector >= 0.12
-- containers >= 0.6
-- unordered-containers >= 0.2
-- scientific >= 0.3
+- process >= 1.6 && < 1.7
+- aeson >= 2.0 && < 2.3
+- bytestring >= 0.10 && < 0.13
+- text >= 1.2 && < 2.2
+- vector >= 0.12 && < 0.14
+- containers >= 0.6 && < 0.8
+- unordered-containers >= 0.2 && < 0.3
+- scientific >= 0.3 && < 0.4
 
 ghc-options:
 - -Wall
