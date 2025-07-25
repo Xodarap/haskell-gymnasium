@@ -5,7 +5,7 @@ cabal-version: 1.12
 -- see: https://github.com/sol/hpack
 
 name:           gym-hs
-version:        0.1.0.0
+version:        0.1.0.1
 synopsis:       Haskell bindings for OpenAI Gymnasium
 description:    A Haskell library that provides bindings to OpenAI Gymnasium environments.
                 This library enables you to call any Gymnasium environment from Haskell code
@@ -13,31 +13,25 @@ description:    A Haskell library that provides bindings to OpenAI Gymnasium env
                 interface with Python's Gymnasium library, providing full access to the
                 rich ecosystem of reinforcement learning environments.
                 .
-                Features:
-                .
-                * Simple, type-safe API for Gymnasium environments
-                * Full interoperability with Python Gymnasium
-                * Automatic resource management and cleanup
-                * Support for all standard Gymnasium environments
-                * JSON-based communication for reliability
+                A full example using Gymnasium to implement a DQN solving CartPole is here: https://github.com/Xodarap/hs-gym-example
 category:       AI, Machine Learning, Reinforcement Learning
-homepage:       https://github.com/gym-hs/gym-hs
-bug-reports:    https://github.com/gym-hs/gym-hs/issues
-author:         gym-hs contributors
-maintainer:     gym-hs@example.com
-copyright:      2025 gym-hs contributors
+homepage:       https://github.com/Xodarap/haskell-gymnasium
+bug-reports:    https://github.com/Xodarap/haskell-gymnasium/issues
+author:         Ben West
+maintainer:     xodarap00@gmail.com
+copyright:      2025 Ben West
 license:        MIT
 license-file:   LICENSE
 build-type:     Simple
 tested-with:
-    GHC==9.2.5, GHC==9.4.8, GHC==9.6.3
+    GHC==9.6.7
 extra-source-files:
     README.md
     CHANGELOG.md
 
 source-repository head
   type:     git
-  location: https://github.com/gym-hs/gym-hs
+  location: https://github.com/Xodarap/haskell-gymnasium
 
 library
   exposed-modules:

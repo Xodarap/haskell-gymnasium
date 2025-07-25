@@ -1,5 +1,5 @@
 name: gym-hs
-version: 0.1.0.0
+version: 0.1.0.1
 synopsis: Haskell bindings for OpenAI Gymnasium
 description: |
   A Haskell library that provides bindings to OpenAI Gymnasium environments.
@@ -8,20 +8,14 @@ description: |
   interface with Python's Gymnasium library, providing full access to the
   rich ecosystem of reinforcement learning environments.
   .
-  Features:
-  .
-  * Simple, type-safe API for Gymnasium environments
-  * Full interoperability with Python Gymnasium
-  * Automatic resource management and cleanup
-  * Support for all standard Gymnasium environments
-  * JSON-based communication for reliability
-homepage: https://github.com/gym-hs/gym-hs
-bug-reports: https://github.com/gym-hs/gym-hs/issues
+  A full example using Gymnasium to implement a DQN solving CartPole is here: https://github.com/Xodarap/hs-gym-example
+homepage: https://github.com/Xodarap/haskell-gymnasium
+bug-reports: https://github.com/Xodarap/haskell-gymnasium/issues
 license: MIT
 license-file: LICENSE
-author: gym-hs contributors
-maintainer: gym-hs@example.com
-copyright: 2025 gym-hs contributors
+author: Ben West
+maintainer: xodarap00@gmail.com
+copyright: 2025 Ben West
 category: AI, Machine Learning, Reinforcement Learning
 build-type: Custom
 custom-setup:
@@ -32,11 +26,11 @@ custom-setup:
 extra-source-files:
 - README.md
 - CHANGELOG.md
-tested-with: GHC==9.2.5, GHC==9.4.8, GHC==9.6.3
+tested-with: GHC==9.6.7
 
 source-repository:
   type: git
-  location: https://github.com/gym-hs/gym-hs
+  location: https://github.com/Xodarap/haskell-gymnasium
 
 dependencies:
 - base >= 4.7 && < 5
