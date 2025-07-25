@@ -45,6 +45,9 @@ dependencies:
 - bytestring >= 0.10 && < 0.13
 - text >= 1.2 && < 2.2
 - scientific >= 0.3 && < 0.4
+- containers >= 0.6 && < 0.8
+- unordered-containers >= 0.2 && < 0.3
+- vector >= 0.12 && < 0.14
 
 ghc-options:
 - -Wall
