@@ -44,9 +44,6 @@ dependencies:
 - aeson >= 2.0 && < 2.3
 - bytestring >= 0.10 && < 0.13
 - text >= 1.2 && < 2.2
-- vector >= 0.12 && < 0.14
-- containers >= 0.6 && < 0.8
-- unordered-containers >= 0.2 && < 0.3
 - scientific >= 0.3 && < 0.4
 
 ghc-options:
